@@ -30,11 +30,11 @@ def num_of_rev():
         with open(file_path, mode='r', encoding='utf-8') as csv_file:
             reader = csv.DictReader(csv_file)
 
-        review_count = 0
+            review_count = 0
 
-        for row in reader:
-            if park_name.lower() in row['Branch'].lower() and reviewer_location.lower() in row['Reviewer_location'].lower():
-                review_count += 1
+            for row in reader:
+                if park_name.lower() in row['Branch'].lower() and reviewer_location.lower() in row['Reviewer_Location'].lower():
+                    review_count += 1
 
         if review_count > 0:
             print(f"There are {review_count} reviews for {park_name} from {reviewer_location}.")
