@@ -16,10 +16,34 @@ def option_a():
     user_input = input("Please enter one of the following options:\n [A] View Reviews by Park \n [B] Number of Reviews by park and Reviewer Location \n [C] Average Score per year by park \n [D] Average Score per park by Reviewer Location.").upper()
     if user_input == "A":
         search_csv('data/disneyland_reviews.csv')
+    elif user_input == "B":
+        num_of_rev()
 
 # Function to handle option B in the menu
 def option_b():
     user_input = input("Please enter one of the following options:\n [A] Most reviewed parks \n [B] Park Ranking by Nationality \n [C] Most Popular Month by Park")
+#Function to display the number of reviews a specific park has received from a given location.
+def num_of_rev():
+    park_name = input("Please enter the location of the park.")
+    reviewer_location = input("Please enter the location of the reviewer.")
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as csv_file:
+            reader = csv.DictReader(csv_file)
+
+        review_count = 0
+
+        for row in reader:
+            if park_name.lower() in row['Branch'].lower() and reviewer_location.lower() in row['Reviewer_location'].lower():
+                review_count += 1
+
+        if review_count > 0:
+            print(f"There are {review_count} reviews for {park_name} from {reviewer_location}.")
+        else:
+            print(f"There are no reviews for {park_name} from {reviewer_location}.")
+    except FileNotFoundError:
+        print("The specified file was not found. Please check the file path and try again.")
+
+
 
 # Function to search for reviews of a specific park in the CSV file
 def search_csv(filepath):
