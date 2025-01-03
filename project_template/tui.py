@@ -18,32 +18,12 @@ def option_a():
         search_csv('data/disneyland_reviews.csv')
     elif user_input == "B":
         num_of_rev()
+    elif user_input == "C":
+        avg_rating()
 
 # Function to handle option B in the menu
 def option_b():
     user_input = input("Please enter one of the following options:\n [A] Most reviewed parks \n [B] Park Ranking by Nationality \n [C] Most Popular Month by Park")
-#Function to display the number of reviews a specific park has received from a given location.
-def num_of_rev():
-    park_name = input("Please enter the location of the park.")
-    reviewer_location = input("Please enter the location of the reviewer.")
-    try:
-        with open(file_path, mode='r', encoding='utf-8') as csv_file:
-            reader = csv.DictReader(csv_file)
-
-            review_count = 0
-
-            for row in reader:
-                if park_name.lower() in row['Branch'].lower() and reviewer_location.lower() in row['Reviewer_Location'].lower():
-                    review_count += 1
-
-        if review_count > 0:
-            print(f"There are {review_count} reviews for {park_name} from {reviewer_location}.")
-        else:
-            print(f"There are no reviews for {park_name} from {reviewer_location}.")
-    except FileNotFoundError:
-        print("The specified file was not found. Please check the file path and try again.")
-
-
 
 # Function to search for reviews of a specific park in the CSV file
 def search_csv(filepath):
@@ -70,6 +50,47 @@ def search_csv(filepath):
             print(f"\nNo Reviews for {search_park}\n")
     except FileNotFoundError:
         # If the file is not found, handle the exception and tell the user
+        print("The specified file was not found. Please check the file path and try again.")
+
+#Function to display the number of reviews a specific park has received from a given location.
+def num_of_rev():
+    # prompt the user to input the name of the park and location of the reviewer
+    park_name = input("Please enter the location of the park.")
+    reviewer_location = input("Please enter the location of the reviewer.")
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as csv_file:
+            reader = csv.DictReader(csv_file)
+            # Counter for the number of reviews that match the given park and reviewer location
+            review_count = 0
+
+            for row in reader:
+                if park_name.lower() in row['Branch'].lower() and reviewer_location.lower() in row['Reviewer_Location'].lower():
+                    # Add one to the reviewer count for each matching review
+                    review_count += 1
+        # After iterating through the file, display the review count
+        if review_count > 0:
+            print(f"There are {review_count} reviews for {park_name} from {reviewer_location}.")
+        else:
+            print(f"There are no reviews for {park_name} from {reviewer_location}.")
+    except FileNotFoundError:
+        print("The specified file was not found. Please check the file path and try again.")
+
+def avg_rating():
+    park_name = input("Please enter the location of the park.")
+    year = input("Please enter the year you want to average ratings for.")
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as csv_file:
+            reader = csv.DictReader(csv_file)
+            ratings = []
+            for row in reader:
+                if park_name.lower() in row['Branch'].lower() and year in row['Year_Month']:
+                    ratings.append(int(row['Rating']))
+            if ratings:
+                average_rating = sum(ratings) / len(ratings)
+                print(f"The average rating for {park_name} in {year} is {average_rating:.2f}")
+            else:
+                print(f"There are no ratings for {park_name} in {year}.")
+    except FileNotFoundError:
         print("The specified file was not found. Please check the file path and try again.")
 
 #Main menu function to handle user choices and navigate options
