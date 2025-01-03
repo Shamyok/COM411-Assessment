@@ -8,5 +8,13 @@ Note:   any user input/output should be done in the module 'tui'
         any visualisation should be done in the module 'visual'
 """
 
+def title():
+    text = "Disneyland Review Analyser"
+    line = "-" * len(text)
+
+    print(line)
+    print(text)
+    print(line)
+title()
 
 
